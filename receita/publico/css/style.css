@@ -1,0 +1,70 @@
+.validation.invalid {
+  border: 1px solid #ef3c59;
+}
+
+.navbar {
+  background-color: #82ac9f;
+}
+
+.navbar-brand{
+  font-family: serif;
+  font-size: 1.5rem;
+}
+
+body,
+.div-color-recipe{
+  background-color: #f2faf8;
+}
+
+.cardFooter {
+  background-color: #4f776a;
+  width:100%; 
+  bottom: 0; 
+  position: fixed;
+}
+
+.imagem-receita{
+  width: 40px;
+}
+
+ /* like */
+.fa {
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fa:hover {
+  color: darkblue;
+}
+
+h1{
+  font-family: times new roman;
+  font-size: 3.4rem;
+  margin-bottom: 2%;
+}
+
+p{
+  font-family: courier new;
+}
+
+span{
+  font-family: comic sans;
+}
+
+.control-label{
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.card-color-recipe,
+.footer-color{
+  background-color: #e6f6f1;
+}
+
+.input-group-text{
+  background-color: #c0e9dd;
+}
+
+.btn-filter{
+  background-color: #82d4bb;
+}
