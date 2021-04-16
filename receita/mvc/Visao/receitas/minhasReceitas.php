@@ -9,7 +9,7 @@
         </ul>
         <div class="dropdown mr-3">
             <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Minhas Receitas
+                Opções
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" href="<?= URL_RAIZ . 'receitas/minhas-receitas' ?>">Minhas Receitas</a>
@@ -34,47 +34,48 @@
 <div class="mt-3">
     <h1 class="text-uppercase font-weight-bold text-muted">Minhas Receitas</h1>
 </div>
-<?php foreach ($receitas as $receita) : ?>
 
-    <div class="card mt-3 div-color-recipe" style="margin: 0 18%">
-        <div class="card-header card-color-recipe">
-            <?= $receita->getNomeReceita() ?>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col col-2">
-                    <img src="<?= URL_IMG . $receita->getImagem() ?>" alt="foto receita" class="imagem-receita pull-center">
-                </div>
-                <div class="col col-4">
-                    <p class="fw-bolder text-uppercase text-muted">Ingredientes:</p>
-                    <?= $receita->getIngrediente() ?>
-                </div>
-                <div class="col col-4">
-                    <p class="fw-bolder text-uppercase text-muted">Modo de Preparo:</p>
-                    <?= $receita->getPreparo() ?>
-                </div>
-                <div class="col col-2">
-                    <p class="fw-bolder text-uppercase text-muted">Tempo de Preparo:</p>
-                    <?= $receita->getTempo() ?>
+<?php foreach ($receitas as $receita) : ?>
+    <?php if ($receita->getUsuarioId() == $this->getUsuario()) : ?>
+
+        <div class="card mt-3 div-color-recipe" style="margin: 0 18%">
+            <div class="card-header card-color-recipe">
+                <?= $receita->getNomeReceita() ?>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col col-4">
+                        <p class="fw-bolder text-uppercase text-muted">Ingredientes:</p>
+                        <?= $receita->getIngrediente() ?>
+                    </div>
+                    <div class="col col-4">
+                        <p class="fw-bolder text-uppercase text-muted">Modo de Preparo:</p>
+                        <?= $receita->getPreparo() ?>
+                    </div>
+                    <div class="col col-2">
+                        <p class="fw-bolder text-uppercase text-muted">Tempo de Preparo:</p>
+                        <?= $receita->getTempo() ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="mr-3">
-                <a href="<?= URL_RAIZ . 'receitas/' . $receita->getId() . '/editar' ?>" class="card-link btn btn-outline-warning mb-2">Editar</a>
+
+            <div class="d-flex justify-content-center">
+                <div class="mr-3">
+                    <a href="<?= URL_RAIZ . 'receitas/' . $receita->getId() . '/editar' ?>" class="card-link btn btn-outline-warning mb-2">Editar</a>
+                </div>
+                <div>
+                    <form action="<?= URL_RAIZ . 'receitas/' . $receita->getId() ?>" method="post" class="inline">
+                        <input type="hidden" name="_metodo" value="DELETE">
+                        <a href="" class="card-link btn btn-outline-danger" title="Deletar" onclick="event.preventDefault(); this.parentNode.submit();">
+                            Deletar </a>
+                    </form>
+                </div>
             </div>
-            <div>
-                <form action="<?= URL_RAIZ . 'receitas/' . $receita->getId() ?>" method="post" class="inline">
-                    <input type="hidden" name="_metodo" value="DELETE">
-                    <a href="" class="card-link btn btn-outline-danger" title="Deletar" onclick="event.preventDefault(); this.parentNode.submit()">
-                        Deletar </a>
-                </form>
+            <div class="card-footer text-muted footer-color">
+                Postada: <?= $receita->getDataFormatada() ?>
             </div>
         </div>
-        <div class="card-footer text-muted footer-color">
-            Postada: <?= $receita->getDataFormatada() ?>
-        </div>
-    </div>
+    <?php endif ?>
 
 <?php endforeach ?>
 

@@ -10,7 +10,7 @@
         </ul>
         <div class="dropdown mr-3">
             <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Minhas Receitas
+                Opções
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -57,11 +57,6 @@
                 <label for="preparo" class="text-muted text-uppercase">Modo de Preparo:</label>
                 <textarea class="form-control" id="preparo" name="preparo"><?= $this->getPost('preparo') ?></textarea>
                 <?php $this->incluirVisao('util/formErro.php', ['campo' => 'preparo']) ?>
-            </div>
-            <div class="form-group <?= $this->getErroCss('foto') ?>">
-                <label class="control-label" for="foto">Foto (somente PNG)</label>
-                <?php $this->incluirVisao('util/formErro.php', ['campo' => 'foto']) ?>
-                <input id="foto" name="foto" class="form-control" type="file">
             </div>
             <div class="form-group row mt-3">
                 <div class="col-2">

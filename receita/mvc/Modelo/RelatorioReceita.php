@@ -17,27 +17,28 @@ class RelatorioReceita
             $parametros[] = $filtro['usuarioId'];
             $sqlWhere .= ' AND u.id = ?';
         }
+
         if (array_key_exists('nome', $filtro) && $filtro['nome'] != '') {
             $parametros[] = $filtro['nome'];
             $sqlWhere .= ' AND r.nome = ?';
         }
 
-        $sql = self::BUSCAR_TODOS . $sqlWhere . ' ORDER BY r.nome';
+        $sql = self::BUSCAR_TODOS . $sqlWhere . ' ORDER BY u.email';
         $comando = DW3BancoDeDados::prepare($sql);
         foreach ($parametros as $i => $parametro) {
             $comando->bindValue($i + 1, $parametro, PDO::PARAM_STR);
         }
         $comando->execute();
         $registros = $comando->fetchAll();
-        $totalPreco = 0;
-        $totalQuantidade = 0;
+        $usuario = 0;
+        $nomeReceita = 0;
         foreach ($registros as $registro) {
-            $totalQuantidade += $registro['nome'];
-            $totalPreco += $registro['usuarioId'];
+            $nomeReceita += $registro['nome'];
+            $usuario += $registro['usuarioId'];
         }
         $registros[] = [
-            'nome' => $totalQuantidade,
-            'usuarioId' => $totalPreco
+            'nome' => $nomeReceita,
+            'usuarioId' => $usuario
         ];
         return $registros;
     }

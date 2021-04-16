@@ -35,7 +35,7 @@
     <!--footer -->
     <div class="card py-2 cardFooter">
         <blockquote class="blockquote text-center">
-            <p class="mb-0 text-white">Tem Tudo .</p>
+            <p class="mb-0 text-white">Receitaria.</p>
             <footer class="blockquote-footer text-white">© 2021 Desenvolvimento em Web 3
                 <a class="indigo-text text-white" href="http://portal.utfpr.edu.br/">UTFPR</a>
             </footer>

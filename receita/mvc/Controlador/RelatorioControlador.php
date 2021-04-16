@@ -21,7 +21,9 @@ class RelatorioControlador extends Controlador
         $this->visao('relatorios/receita.php', [
             'receitas' => Receita::contarTodos(),
             'usuarios' => Usuario::contarTodos(),
-            'receita' => Receita::buscarTodos(),
+            'receita' => Receita::buscar(),
+            // 'receita' => Receita::buscarTodos(),
+            'usuario' => Usuario::buscarTodos(),
             'registros' => RelatorioReceita::buscarRegistros($_GET)
         ]);
     }

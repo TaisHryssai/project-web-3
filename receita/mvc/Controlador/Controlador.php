@@ -20,17 +20,17 @@ abstract class Controlador extends DW3Controlador
         }
     }
 
-    // protected function verificarCurtida($usuarioId, $receitaId)
-    // {
-    //     $curtir = Curtir::jaCurtiu($usuarioId, $receitaId);
+    protected function verificarCurtida($usuarioId, $receitaId)
+    {
+        $curtir = Curtir::curtiu($usuarioId, $receitaId);
 
-    //     if (Curtir::jaCurtiu($usuarioId, $receitaId) < 1) {
-    //         $this->redirecionar(URL_RAIZ . 'receitas');
-    //     } else {
-    //         DW3Sessao::setFlash('mensagemFlash', 'ja curtiu');
-    //         $this->redirecionar(URL_RAIZ . 'receitas');
-    //     }
-    // }
+        if (Curtir::curtiu($usuarioId, $receitaId) == null) {
+            $this->redirecionar(URL_RAIZ . 'receitas');
+        } else {
+            DW3Sessao::setFlash('mensagemFlash', 'ja curtiu');
+            $this->redirecionar(URL_RAIZ . 'receitas');
+        }
+    }
 
     protected function getUsuario()
     {

@@ -11,7 +11,7 @@ class ReceitaControlador extends Controlador
     private function calcularPaginacao()
     {
         $pagina = array_key_exists('p', $_GET) ? intval($_GET['p']) : 1;
-        $limit = 2;
+        $limit = 4;
         $offset = ($pagina - 1) * $limit;
         $receitas = Receita::buscarTodos($limit, $offset);
         $curtir = Curtir::buscarTodos();
@@ -24,7 +24,6 @@ class ReceitaControlador extends Controlador
     {
         $this->verificarLogado();
         $paginacao = $this->calcularPaginacao();
-        // $receitas = Receita::buscarTodos();
 
         $this->visao('receitas/minhasReceitas.php', [
             'receitas' => $paginacao['receitas'],
@@ -38,8 +37,6 @@ class ReceitaControlador extends Controlador
     {
         $this->verificarLogado();
         $paginacao = $this->calcularPaginacao();
-        // $curtidas = Curtir::contarTodos();
-        // $curtir = Curtir::buscarTodos();
 
         $this->visao('receitas/index.php', [
             'receitas' => $paginacao['receitas'],
@@ -64,7 +61,6 @@ class ReceitaControlador extends Controlador
     public function armazenar()
     {
         $this->verificarLogado();
-        $foto = array_key_exists('foto', $_FILES) ? $_FILES['foto'] : null;
 
         $receita = new Receita(
             $_POST['nome'],
@@ -73,7 +69,6 @@ class ReceitaControlador extends Controlador
             $_POST['preparo'],
             $_POST['data_receita'],
             DW3Sessao::get('usuario'),
-            $foto
         );
 
         if ($receita->isValido()) {
@@ -124,6 +119,7 @@ class ReceitaControlador extends Controlador
     {
         $this->verificarLogado();
         $receita = Receita::buscarId($id);
+
         if ($receita->getUsuarioId() == $this->getUsuario()) {
             Receita::destruir($id);
             DW3Sessao::setFlash('mensagemFlash', 'Receita destruida.');

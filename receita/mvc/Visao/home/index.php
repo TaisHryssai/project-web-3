@@ -15,7 +15,8 @@
 </nav>
 
 <div class="mt-3">
-  <h1 class="text-uppercase font-weight-bold">Receitas</h1>
+  <img src="<?= URL_IMG . 'teste.png' ?>" alt="">
+
 </div>
 <form method="get" class="margin-bottom">
   <div class="container mt-3">
@@ -37,11 +38,15 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="">Ordenar</span>
         </div>
-        <select id="receitaId" name="receitaId" class="form-control">
+        <select id="receitaId" name="dataMaior" class="form-control">
           <option value="">---</option>
-          <?php foreach ($receitas as $produto) : ?>
-            <?php $selected = $this->getGet('receitaId') == $produto->getId() ? 'selected' : '' ?>
-            <option value="<?= $produto->getId() ?>" <?= $selected ?>><?= $produto->getTempo() ?></option>
+          <?php
+
+          use Modelo\Curtir;
+
+          foreach ($receitas as $produto) : ?>
+            <?php $selected = $this->getGet('dataMaior') == $produto->getId() ? 'selected' : '' ?>
+            <option value="<?= $produto->getId() ?>" <?= $selected ?>><?= $produto->getDataFormatada() ?></option>
           <?php endforeach ?>
         </select>
       </div>
@@ -54,7 +59,7 @@
 
   <div class="card text-center mt-3 div-color-recipe" style="margin: 0 18%">
     <div class="card-header card-color-recipe">
-      <?= $registro['nome'] ?> - Curtidas
+      <h5 class="text-uppercase"><?= $registro['nome'] ?></h5>
     </div>
     <div class="card-body">
       <div class="container">
@@ -73,13 +78,15 @@
           </div>
         </div>
       </div>
-      <div class="card-footer text-muted footer-color">
-        Postada: <?= $registro['data_receita'] ?> - <button type="submit" class="btn"> <i class="fa fa-thumbs-up"></i> </button>
-      </div>
+    </div>
+    <div class="card-footer text-muted footer-color">
+      Postada: <?= $registro['data_receita'] ?>
     </div>
   </div>
 
 <?php endforeach ?>
+
+
 
 <ul class="pagination justify-content-end mt-2" style="margin-bottom: 5%;">
   <li class="page-item">

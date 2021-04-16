@@ -1,6 +1,6 @@
 <?php
 
-const APLICACAO_NOME = 'Tem Tudo';
+const APLICACAO_NOME = 'Receitaria';
 
 // Se a URL_RAIZ mudar, verifique arquivo .htaccess
 const URL_RAIZ = '/projeto-web/receita/';

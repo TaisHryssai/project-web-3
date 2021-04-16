@@ -9,7 +9,7 @@
         </ul>
         <div class="dropdown mr-3">
             <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Minhas Receitas
+                Opções
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" href="<?= URL_RAIZ . 'receitas/minhas-receitas' ?>">Minhas Receitas</a>
@@ -24,30 +24,44 @@
     </div>
 </nav>
 
+<div>
+    <h2 class="text-uppercase font-weight-bold mb-5">
+        Relatorio de Receitas
+    </h2>
+</div>
+
 <form method="get" class="margin-bottom">
-    <div class="mt-4 mb-5">
-        <h1 class="text-uppercase font-weight-bold" for="nome"> Relatorio de Receitas</h1>
+    <div class="form-group">
+        <label class="control-label" for="usuarioId">Pesquisar receitas pelo usuário</label>
+        <select id="usuarioId" name="usuarioId" class="form-control" autofocus>
+            <option value="">---</option>
+            <?php foreach ($usuario as $usuario) : ?>
+                <?php $selected = $this->getGet('usuarioId') == $usuario->getId() ? 'selected' : '' ?>
+                <option value="<?= $usuario->getId() ?>" <?= $selected ?>><?= $usuario->getEmail() ?></option>
+            <?php endforeach ?>
+        </select>
     </div>
+
+    <button type="submit" class="btn btn-primary center-block largura100">Filtrar</button>
 </form>
 
 <hr>
 
+<div>
+    <h4 class="text-uppercase"> O sistema tem no Total:
+        <span class="font-weight-bold"> <?= $receitas ?> </span> receitas cadastradas e <span class="font-weight-bold"> <?= $usuarios ?> </span> usuários
+    </h4>
+    <span>Receitas cadastradas:</span>
+</div>
+
 <table class="table table-condensed table-bordered">
     <tr class="active">
-        <th></th>
-        <th>Receitas</th>
-        <th>Usuarios</th>
+        <th>Nome da Receita</th>
     </tr>
     <?php for ($i = 0; $i < count($registros) - 1; $i++) : ?>
         <tr>
-            <td></td>
-            <td class="text-center"><?= $registros[$i]['nome'] ?></td>
-            <td><?= $registros[$i]['usuario'] ?></td>
+            <td class="text-center font-italic"><?= $registros[$i]['nome'] ?></td>
         </tr>
     <?php endfor ?>
-    <tr class="active negrito">
-        <td>TOTAL</td>
-        <td class="text-center"><?= $receitas ?></td>
-        <td class="text-center"><?= $usuarios ?></td>
-    </tr>
+
 </table>

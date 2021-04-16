@@ -11,6 +11,7 @@ class Usuario extends Modelo
     const INSERIR = 'INSERT INTO usuarios(email,senha) VALUES (?, ?)';
     const BUSCAR_ID = 'SELECT * FROM usuarios WHERE id = ?';
     const CONTAR_TODOS = 'SELECT count(id) FROM usuarios';
+    const BUSCAR_TODOS = 'SELECT * FROM usuarios ORDER BY email';
 
     private $id;
     private $email;
@@ -115,5 +116,15 @@ class Usuario extends Modelo
         $registros = DW3BancoDeDados::query(self::CONTAR_TODOS);
         $total = $registros->fetch();
         return intval($total[0]);
+    }
+
+    public static function buscarTodos()
+    {
+        $registros = DW3BancoDeDados::query(self::BUSCAR_TODOS);
+        $objetos = [];
+        foreach ($registros as $registro) {
+            $objetos[] = new Usuario($registro['email'], $registro['senha'], $registro['id']);
+        }
+        return $objetos;
     }
 }

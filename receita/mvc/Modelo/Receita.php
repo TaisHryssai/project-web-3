@@ -11,11 +11,11 @@ class Receita extends Modelo
     const BUSCAR_ID = 'SELECT * FROM receitas WHERE id = ?';
     const INSERIR = 'INSERT INTO receitas(nome, tempo, ingrediente, preparo, data_receita, usuario_id) VALUES (?, ?, ?, ?, ?, ?)';
     const DELETAR = 'DELETE FROM receitas WHERE id = ?';
-    const BUSCAR_TODOS = 'SELECT r.nome, r.tempo, r.ingrediente, r.preparo, r.data_receita, r.id r_id, u.id u_id, u.email FROM receitas r JOIN usuarios u ON (r.usuario_id = u.id) ORDER BY r.id LIMIT ? OFFSET ?';
+    const BUSCAR_TODOS = 'SELECT r.nome, r.tempo, r.ingrediente, r.preparo, r.data_receita, r.id r_id, u.email, u.id u_id FROM receitas r JOIN usuarios u ON (r.usuario_id = u.id) ORDER BY r.data_receita DESC LIMIT ? OFFSET ?';
     const ATUALIZAR = 'UPDATE receitas SET nome = ?, tempo = ?, ingrediente = ?, preparo = ?, data_receita = ? WHERE id = ?';
     const CONTAR_TODOS = 'SELECT count(id) FROM receitas';
     const BUSCAR = 'SELECT * FROM receitas ORDER BY nome';
-    const BUSCA = 'SELECT r.nome, r.tempo, r.ingrediente, r.preparo, r.data_receita, r.id r_id, u.id u_id, u.email FROM receitas r JOIN usuarios u ON (r.usuario_id = u.id)';
+    const BUSCA = 'SELECT r.nome, r.tempo, r.ingrediente, r.preparo, r.data_receita, r.id r_id, u.id u_id, u.email FROM receitas r JOIN usuarios u ON (r.usuario_id = u.id) WHERE TRUE';
 
     private $id;
     private $nome;
@@ -25,7 +25,6 @@ class Receita extends Modelo
     private $dataReceita;
     private $usuarioId;
     private $usuario;
-    private $foto;
     private $receita;
 
     public function __construct(
@@ -36,7 +35,6 @@ class Receita extends Modelo
         $dataReceita,
         $usuarioId,
         $usuario = null,
-        $foto = null,
         $receita = null,
         $id = null
     ) {
@@ -48,7 +46,6 @@ class Receita extends Modelo
         $this->dataReceita = $dataReceita;
         $this->usuarioId = $usuarioId;
         $this->usuario = $usuario;
-        $this->foto = $foto;
         $this->receita = $receita;
     }
 
@@ -94,9 +91,20 @@ class Receita extends Modelo
     {
         return $this->id;
     }
+
     public function getReceita()
     {
         return $this->receita;
+    }
+
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    public function getUsuarioId()
+    {
+        return $this->usuarioId;
     }
 
     public function getNomeReceita()
@@ -135,25 +143,6 @@ class Receita extends Modelo
         $this->dataReceita = date('Y-m-d h:i:s');
     }
 
-    public function getImagem()
-    {
-        $imagemNome = "{$this->id}.png";
-        if (!DW3ImagemUpload::existe($imagemNome)) {
-            $imagemNome = 'icon-talheres.png';
-        }
-        return $imagemNome;
-    }
-
-    public function getUsuario()
-    {
-        return $this->usuario;
-    }
-
-    public function getUsuarioId()
-    {
-        return $this->usuarioId;
-    }
-
     public function setNomeReceita($nome)
     {
         return $this->nome = $nome;
@@ -182,7 +171,6 @@ class Receita extends Modelo
         } else {
             $this->atualizar();
         }
-        $this->salvarImagem();
     }
 
     private function inserir()
@@ -198,14 +186,6 @@ class Receita extends Modelo
         $comando->execute();
         $this->id = DW3BancoDeDados::getPdo()->lastInsertId();
         DW3BancoDeDados::getPdo()->commit();
-    }
-
-    private function salvarImagem()
-    {
-        if (DW3ImagemUpload::isValida($this->foto)) {
-            $nomeCompleto = PASTA_PUBLICO . "img/{$this->id}.png";
-            DW3ImagemUpload::salvar($this->foto, $nomeCompleto);
-        }
     }
 
     public function atualizar()
@@ -242,7 +222,6 @@ class Receita extends Modelo
             $registro['usuario_id'],
             null,
             null,
-            null,
             $registro['id']
         );
     }
@@ -267,6 +246,31 @@ class Receita extends Modelo
                 $registro['ingrediente'],
                 $registro['preparo'],
                 $registro['data_receita'],
+                $registro['u_id'],
+                $usuario,
+                null,
+                $registro['r_id']
+            );
+        }
+        return $objetos;
+    }
+
+    public static function buscar()
+    {
+        $registros = DW3BancoDeDados::query(self::BUSCAR);
+        $objetos = [];
+        foreach ($registros as $registro) {
+            $usuario = new Usuario(
+                $registro['email'],
+                '',
+                $registro['u_id']
+            );
+            $objetos[] = new Receita(
+                $registro['nome'],
+                $registro['tempo'],
+                $registro['ingrediente'],
+                $registro['preparo'],
+                $registro['data_receita'],
                 $usuario,
                 null,
                 null,
@@ -276,32 +280,6 @@ class Receita extends Modelo
         }
         return $objetos;
     }
-
-    // public static function buscar()
-    // {
-    //     $registros = DW3BancoDeDados::query(self::BUSCAR);
-    //     $objetos = [];
-    //     foreach ($registros as $registro) {
-    //         $usuario = new Usuario(
-    //             $registro['email'],
-    //             '',
-    //             $registro['u_id']
-    //         );
-    //         $objetos[] = new Receita(
-    //             $registro['nome'],
-    //             $registro['tempo'],
-    //             $registro['ingrediente'],
-    //             $registro['preparo'],
-    //             $registro['data_receita'],
-    //             $usuario,
-    //             null,
-    //             null,
-    //             $registro['u_id'],
-    //             $registro['r_id']
-    //         );
-    //     }
-    //     return $objetos;
-    // }
 
     public static function contarTodos()
     {
@@ -335,12 +313,6 @@ class Receita extends Modelo
         }
         if (strlen($this->tempo) == null) {
             $this->setErroMensagem('tempo', 'Campo não pode ser vazio');
-        }
-        if (
-            DW3ImagemUpload::existeUpload($this->foto)
-            && !DW3ImagemUpload::isValida($this->foto)
-        ) {
-            $this->setErroMensagem('foto', 'Deve ser de no máximo 500 KB.');
         }
     }
 }

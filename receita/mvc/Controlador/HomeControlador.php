@@ -20,7 +20,9 @@ class HomeControlador extends Controlador
         $limit = 2;
         $offset = ($pagina - 1) * $limit;
         $receitas = Receita::buscarTodos($limit, $offset);
+
         $registros = Receita::buscarRegistros($_GET);
+
         $ultimaPagina = ceil(Receita::contarTodos() / $limit);
         return compact('pagina', 'receitas', 'ultimaPagina', 'registros');
     }
