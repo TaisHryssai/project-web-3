@@ -8,12 +8,6 @@ use Modelo\Receita;
 
 class HomeControlador extends Controlador
 {
-    // public function index()
-    // {
-    //     // $this->redirecionar(URL_RAIZ . 'login');
-    //     $this->visao('home/index.php');
-    // }
-
     private function calcularPaginacao()
     {
         $pagina = array_key_exists('p', $_GET) ? intval($_GET['p']) : 1;

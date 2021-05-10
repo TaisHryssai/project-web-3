@@ -12,7 +12,7 @@ class TesteReceitas extends Teste
     public function testeListagemDeslogado()
     {
         $resposta = $this->get(URL_RAIZ . 'home');
-        $this->verificarContem($resposta, 'Receitas');
+        $this->verificarContem($resposta, 'Ingrediente');
     }
 
     public function testeListagem()

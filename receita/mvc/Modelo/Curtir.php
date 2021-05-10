@@ -9,19 +9,17 @@ class Curtir extends Modelo
 {
     const INSERIR = 'INSERT INTO curtidas(usuario_id,receita_id) VALUES (?, ?)';
 
-    const BUSCAR_TODOS = 'SELECT c.id c_id, u.id u_id, u.email, r.nome, r.tempo, r.ingrediente, r.preparo, r.data_receita, r.id r_id FROM curtidas c JOIN usuarios u ON (c.usuario_id = u.id) JOIN receitas r ON (c.receita_id = r.id)';
+    const BUSCAR_TODOS = 'SELECT c.id c_id, u.email, u.id u_id, r.nome, r.tempo, r.ingrediente, r.preparo, r.data_receita, r.id r_id FROM curtidas c JOIN usuarios u ON (c.usuario_id = u.id) JOIN receitas r ON (c.receita_id = r.id) LIMIT 1';
 
     const BUSCAR_ID = 'SELECT * FROM curtidas WHERE id = ?';
 
-    const DELETAR = 'DELETE FROM curtidas WHERE receita_id = ?';
+    const DELETAR = 'DELETE FROM curtidas WHERE id = ?';
 
     const CONTAR_TODOS = 'SELECT count(id) FROM curtidas';
 
     const CONTAR_CURTIDAS = 'SELECT count(id) FROM curtidas WHERE receita_id = ?';
 
     const BUSCAR = 'SELECT c.id c_id, r.nome, r.tempo, r.ingrediente, r.preparo, r.data_receita, r.id r_id FROM curtidas c JOIN receitas r ON (c.receita_id = r.id) ';
-
-    const CURTIU_USUARIO = 'SELECT * FROM curtidas WHERE usuario_id = ? AND receita_id = ? LIMIT 1';
 
     private $id;
     private $usuarioId;
@@ -100,10 +98,9 @@ class Curtir extends Modelo
                 $registro['ingrediente'],
                 $registro['preparo'],
                 $registro['data_receita'],
+                $registro['u_id'],
                 $usuario,
                 null,
-                null,
-                $registro['u_id'],
                 $registro['r_id']
             );
 
@@ -133,21 +130,6 @@ class Curtir extends Modelo
         );
     }
 
-    public static function curtiu($usuarioId, $receitaId)
-    {
-        $comando = DW3BancoDeDados::prepare(self::CURTIU_USUARIO);
-        $comando->bindValue(1, $usuarioId, PDO::PARAM_INT);
-        $comando->bindValue(2, $receitaId, PDO::PARAM_INT);
-        $comando->execute();
-        $registro = $comando->fetch();
-        return new Curtir(
-            $registro['usuario_id'],
-            $registro['receita_id'],
-            null,
-            $registro['id']
-        );
-    }
-
     public static function contarCurtidas($receitaId)
     {
         $comando = DW3BancoDeDados::prepare(self::CONTAR_CURTIDAS);
@@ -164,10 +146,10 @@ class Curtir extends Modelo
         return intval($total[0]);
     }
 
-    public static function destruir($receitaId)
+    public static function destruir($id)
     {
         $comando = DW3BancoDeDados::prepare(self::DELETAR);
-        $comando->bindValue(1, $receitaId, PDO::PARAM_INT);
+        $comando->bindValue(1, $id, PDO::PARAM_INT);
         $comando->execute();
     }
 }

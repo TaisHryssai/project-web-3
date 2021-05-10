@@ -7,7 +7,6 @@ use Modelo\Curtir;
 
 class CurtirControlador extends Controlador
 {
-
     public function armazenar()
     {
         $this->verificarLogado();
@@ -18,10 +17,6 @@ class CurtirControlador extends Controlador
         );
         $id = $_POST['receita_id'];
         $usuario = DW3Sessao::get('usuario');
-
-        // var_dump($usuario);
-
-        // $this->verificarCurtida($usuario, $id);
 
         if ($receita->isValido()) {
             $receita->salvar();
@@ -34,8 +29,8 @@ class CurtirControlador extends Controlador
     public function destruir($id)
     {
         $this->verificarLogado();
-        // $curtir = Curtir::buscarId($id);
         Curtir::destruir($id);
+
         $this->redirecionar(URL_RAIZ . 'receitas');
     }
 }

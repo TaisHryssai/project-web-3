@@ -36,46 +36,44 @@
 </div>
 
 <?php foreach ($receitas as $receita) : ?>
-    <?php if ($receita->getUsuarioId() == $this->getUsuario()) : ?>
 
-        <div class="card mt-3 div-color-recipe" style="margin: 0 18%">
-            <div class="card-header card-color-recipe">
-                <?= $receita->getNomeReceita() ?>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col col-4">
-                        <p class="fw-bolder text-uppercase text-muted">Ingredientes:</p>
-                        <?= $receita->getIngrediente() ?>
-                    </div>
-                    <div class="col col-4">
-                        <p class="fw-bolder text-uppercase text-muted">Modo de Preparo:</p>
-                        <?= $receita->getPreparo() ?>
-                    </div>
-                    <div class="col col-2">
-                        <p class="fw-bolder text-uppercase text-muted">Tempo de Preparo:</p>
-                        <?= $receita->getTempo() ?>
-                    </div>
+    <div class="card mt-3 div-color-recipe" style="margin: 0 18%">
+        <div class="card-header card-color-recipe">
+            <?= $receita->getNomeReceita() ?>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col col-4">
+                    <p class="fw-bolder text-uppercase text-muted">Ingredientes:</p>
+                    <?= $receita->getIngrediente() ?>
                 </div>
-            </div>
-
-            <div class="d-flex justify-content-center">
-                <div class="mr-3">
-                    <a href="<?= URL_RAIZ . 'receitas/' . $receita->getId() . '/editar' ?>" class="card-link btn btn-outline-warning mb-2">Editar</a>
+                <div class="col col-4">
+                    <p class="fw-bolder text-uppercase text-muted">Modo de Preparo:</p>
+                    <?= $receita->getPreparo() ?>
                 </div>
-                <div>
-                    <form action="<?= URL_RAIZ . 'receitas/' . $receita->getId() ?>" method="post" class="inline">
-                        <input type="hidden" name="_metodo" value="DELETE">
-                        <a href="" class="card-link btn btn-outline-danger" title="Deletar" onclick="event.preventDefault(); this.parentNode.submit();">
-                            Deletar </a>
-                    </form>
+                <div class="col col-2">
+                    <p class="fw-bolder text-uppercase text-muted">Tempo de Preparo:</p>
+                    <?= $receita->getTempo() ?>
                 </div>
-            </div>
-            <div class="card-footer text-muted footer-color">
-                Postada: <?= $receita->getDataFormatada() ?>
             </div>
         </div>
-    <?php endif ?>
+
+        <div class="d-flex justify-content-center">
+            <div class="mr-3">
+                <a href="<?= URL_RAIZ . 'receitas/' . $receita->getId() . '/editar' ?>" class="card-link btn btn-outline-warning mb-2">Editar</a>
+            </div>
+            <div>
+                <form action="<?= URL_RAIZ . 'receitas/' . $receita->getId() ?>" method="post" class="inline">
+                    <input type="hidden" name="_metodo" value="DELETE">
+                    <a href="" class="card-link btn btn-outline-danger" title="Deletar" onclick="event.preventDefault(); this.parentNode.submit();">
+                        Deletar </a>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer text-muted footer-color">
+            Postada: <?= $receita->getDataFormatada() ?> - Usúario <?= $receita->getUsuario()->getEmail() ?>
+        </div>
+    </div>
 
 <?php endforeach ?>
 

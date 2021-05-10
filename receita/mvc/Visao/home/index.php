@@ -2,7 +2,6 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <img src="<?= URL_IMG . 'icon2.png' ?>" alt="" style="width: 50px; height: 40px">
 
   <a class="navbar-brand text-white text-uppercase font-weight-bold" href="<?= URL_RAIZ . 'home' ?>"><?= APLICACAO_NOME ?></a>
 
@@ -22,33 +21,17 @@
   <div class="container mt-3">
     <div class="row">
       <br>
-      <div class="input-group col-4">
+      <div class="input-group col-5">
         <div class="input-group-prepend">
           <span class="input-group-text" id="">Ingrediente</span>
         </div>
         <input type="text" class="form-control " name="ingrediente" value="<?= $this->getGet('ingrediente') ?>" placeholder="ingrediente" style="margin-right: 15%;">
       </div>
-      <div class="input-group col-4">
+      <div class="input-group col-5">
         <div class="input-group-prepend">
           <span class="input-group-text" id="">Tempo</span>
         </div>
         <input type="text" class="form-control " name="tempo" value="<?= $this->getGet('tempo') ?>" placeholder="tempo" style="margin-right: 15%;">
-      </div>
-      <div class="input-group col-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="">Ordenar</span>
-        </div>
-        <select id="receitaId" name="dataMaior" class="form-control">
-          <option value="">---</option>
-          <?php
-
-          use Modelo\Curtir;
-
-          foreach ($receitas as $produto) : ?>
-            <?php $selected = $this->getGet('dataMaior') == $produto->getId() ? 'selected' : '' ?>
-            <option value="<?= $produto->getId() ?>" <?= $selected ?>><?= $produto->getDataFormatada() ?></option>
-          <?php endforeach ?>
-        </select>
       </div>
       <button type="submit" class="btn center-block btn-filter largura100">Filtrar</button>
     </div>

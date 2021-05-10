@@ -14,10 +14,10 @@ class ReceitaControlador extends Controlador
         $limit = 4;
         $offset = ($pagina - 1) * $limit;
         $receitas = Receita::buscarTodos($limit, $offset);
-        $curtir = Curtir::buscarTodos();
+        $curtidas = Curtir::buscarTodos();
 
         $ultimaPagina = ceil(Receita::contarTodos() / $limit);
-        return compact('pagina', 'receitas', 'curtir', 'ultimaPagina');
+        return compact('pagina', 'receitas', 'curtidas', 'ultimaPagina');
     }
 
     public function minhasReceitas()
@@ -41,7 +41,7 @@ class ReceitaControlador extends Controlador
         $this->visao('receitas/index.php', [
             'receitas' => $paginacao['receitas'],
             'registros' => Receita::buscarRegistros($_GET),
-            'curtir' => $paginacao['curtir'],
+            'curtidas' => $paginacao['curtidas'],
             'pagina' => $paginacao['pagina'],
             'ultimaPagina' => $paginacao['ultimaPagina'],
             'mensagemFlash' => DW3Sessao::getFlash('mensagemFlash')

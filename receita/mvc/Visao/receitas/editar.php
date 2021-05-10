@@ -55,10 +55,6 @@
             <label for="preparo" class="text-muted text-uppercase">Modo de Preparo:</label>
             <textarea class="form-control" id="preparo" name="preparo"> <?= $receita->getPreparo() ?></textarea>
         </div>
-        <div class="form-group <?= $this->getErroCss('foto') ?>">
-            <label class="control-label" for="foto">Foto (somente PNG)</label>
-            <input id="foto" name="foto" class="form-control" type="file" value="<?= $receita->getImagem() ?>">
-        </div>
         <div class="form-group row mt-3 mb-3">
             <div class="col-1">
                 <a href="<?= URL_RAIZ . 'receitas/minhas-receitas' ?>" class="btn btn-outline-danger">Voltar </a>

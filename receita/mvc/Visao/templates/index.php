@@ -8,7 +8,6 @@
     <title><?= APLICACAO_NOME ?></title>
 
     <link rel="shortcut icon" href="<?= URL_IMG . 'icon.png' ?>" type="image/x-icon">
-    <!-- <script src="https://kit.fontawesome.com/826671e166.js" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- CSS Bootstrap -->

@@ -25,7 +25,6 @@ class Receita extends Modelo
     private $dataReceita;
     private $usuarioId;
     private $usuario;
-    private $receita;
 
     public function __construct(
         $nome,
@@ -47,44 +46,6 @@ class Receita extends Modelo
         $this->usuarioId = $usuarioId;
         $this->usuario = $usuario;
         $this->receita = $receita;
-    }
-
-    public static function buscarRegistros($filtro = [])
-    {
-        $sqlWhere = '';
-        $parametros = [];
-        if (array_key_exists('receitaId', $filtro) && $filtro['receitaId'] != '') {
-            $parametros[] = $filtro['receitaId'];
-            $sqlWhere .= ' AND r.id = ?';
-        }
-        if (array_key_exists('ingrediente', $filtro) && $filtro['ingrediente'] != '') {
-            $parametros[] = $filtro['ingrediente'];
-            $sqlWhere .= ' AND r.ingrediente = ?';
-        }
-
-        if (array_key_exists('tempo', $filtro) && $filtro['tempo'] != '') {
-            $parametros[] = $filtro['tempo'];
-            $sqlWhere .= ' AND r.tempo = ?';
-        }
-
-        $sql = self::BUSCA . $sqlWhere . ' ORDER BY r.nome';
-        $comando = DW3BancoDeDados::prepare($sql);
-        foreach ($parametros as $i => $parametro) {
-            $comando->bindValue($i + 1, $parametro, PDO::PARAM_STR);
-        }
-        $comando->execute();
-        $registros = $comando->fetchAll();
-        // $totalPreco = 0;
-        // $totalQuantidade = 0;
-        // foreach ($registros as $registro) {
-        //     $totalQuantidade += $registro['ingrediente'];
-        //     $totalPreco += $registro['tempo'];
-        // }
-        // $registros[] = [
-        //     'ingrediente' => $totalQuantidade,
-        //     'tempo' => $totalPreco
-        // ];
-        return $registros;
     }
 
     public function getId()
@@ -165,7 +126,6 @@ class Receita extends Modelo
 
     public function salvar()
     {
-        // $this->inserir();
         if ($this->id == null) {
             $this->inserir();
         } else {
@@ -271,10 +231,9 @@ class Receita extends Modelo
                 $registro['ingrediente'],
                 $registro['preparo'],
                 $registro['data_receita'],
+                $registro['u_id'],
                 $usuario,
                 null,
-                null,
-                $registro['u_id'],
                 $registro['r_id']
             );
         }
@@ -314,5 +273,33 @@ class Receita extends Modelo
         if (strlen($this->tempo) == null) {
             $this->setErroMensagem('tempo', 'Campo não pode ser vazio');
         }
+    }
+
+    public static function buscarRegistros($filtro = [])
+    {
+        $sqlWhere = '';
+        $parametros = [];
+        if (array_key_exists('receitaId', $filtro) && $filtro['receitaId'] != '') {
+            $parametros[] = $filtro['receitaId'];
+            $sqlWhere .= ' AND r.id = ?';
+        }
+        if (array_key_exists('ingrediente', $filtro) && $filtro['ingrediente'] != '') {
+            $parametros[] = $filtro['ingrediente'];
+            $sqlWhere .= ' AND r.ingrediente = ?';
+        }
+
+        if (array_key_exists('tempo', $filtro) && $filtro['tempo'] != '') {
+            $parametros[] = $filtro['tempo'];
+            $sqlWhere .= ' AND r.tempo = ?';
+        }
+
+        $sql = self::BUSCA . $sqlWhere . ' ORDER BY r.nome';
+        $comando = DW3BancoDeDados::prepare($sql);
+        foreach ($parametros as $i => $parametro) {
+            $comando->bindValue($i + 1, $parametro, PDO::PARAM_STR);
+        }
+        $comando->execute();
+        $registros = $comando->fetchAll();
+        return $registros;
     }
 }

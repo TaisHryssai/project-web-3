@@ -23,24 +23,9 @@ body,
   position: fixed;
 }
 
-.imagem-receita{
-  width: 40px;
-}
-
- /* like */
-.fa {
-  font-size: 20px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.fa:hover {
-  color: darkblue;
-}
-
 h1{
   font-family: times new roman;
-  font-size: 3.4rem;
+  font-size: 3.0rem;
   margin-bottom: 2%;
 }
 

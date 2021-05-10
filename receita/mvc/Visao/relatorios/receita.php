@@ -25,7 +25,7 @@
 </nav>
 
 <div>
-    <h2 class="text-uppercase font-weight-bold mb-5">
+    <h2 class="text-uppercase font-weight-bold mb-5 mt-4">
         Relatorio de Receitas
     </h2>
 </div>

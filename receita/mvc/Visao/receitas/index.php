@@ -23,6 +23,7 @@
             <input type="hidden" name="_metodo" value="DELETE">
             <button type="submit" class="btn btn-outline-light">Sair</button>
         </form>
+
     </div>
 </nav>
 
@@ -40,7 +41,6 @@ if ($mensagemFlash) : ?>
 <?php endif ?>
 
 <div class="mt-2">
-    <!-- <h1 class="text-uppercase font-weight-bold text-muted">Receitas</h1> -->
     <img src="<?= URL_IMG . 'teste.png' ?>" alt="">
 </div>
 
@@ -66,11 +66,7 @@ if ($mensagemFlash) : ?>
     </div>
 </form>
 
-
-
-
 <?php foreach ($receitas as $receita) : ?>
-
 
     <div class="card mt-3 div-color-recipe" style="margin: 0 18%">
         <div class="card-header card-color-recipe">
@@ -80,25 +76,28 @@ if ($mensagemFlash) : ?>
         <div class="card-body">
             <div class="row">
                 <div class="col col-2">
-                    <?php if (Curtir::curtiu(DW3Sessao::get('usuario'), $receita->getId())) : ?>
 
-                        <div class="col col-1">
-                            <form action="<?= URL_RAIZ . 'curtir' ?>" method="post" class="form-curtir">
-                                <input type="hidden" name="receita_id" value="<?= $receita->getId() ?>">
-                                <button type="submit" class="btn btn-primary"> <i class="fa fa-thumbs-up"></i> </button>
-                            </form>
-                        </div>
-                    <?php endif ?>
+                    <div class="col col-1">
+                        <form action="<?= URL_RAIZ . 'curtir' ?>" method="post" class="form-curtir">
+                            <input type="hidden" name="receita_id" value="<?= $receita->getId() ?>">
+                            <button type="submit" class="btn btn-primary" id="button-like"> <i class="fa fa-thumbs-up"></i> </button>
+
+                        </form>
+                    </div>
+
+                    <?php foreach ($curtidas as $curtir) : ?>
+
+                        <?php if (Curtir::contarCurtidas($receita->getId())) : ?>
+                            <div class="col col-1">
+                                <form action="<?= URL_RAIZ . 'curtir/' . $curtir->getId() ?>" method="post">
+                                    <input type="hidden" name="_metodo" value="DELETE">
+                                    <button class="btn btn-danger button-dislike" type="submit"><i class="fa fa-thumbs-down"></i></button>
+                                </form>
+                            </div>
+                        <?php endif ?>
+                    <?php endforeach ?>
 
 
-                    <?php if (Curtir::contarCurtidas($receita->getId())) : ?>
-                        <div class="col col-1">
-                            <form action="<?= URL_RAIZ . 'curtir/' . $receita->getId() ?>" method="post">
-                                <input type="hidden" name="_metodo" value="DELETE">
-                                <button class="btn btn-danger" type="submit"><i class="fa fa-thumbs-down"></i></button>
-                            </form>
-                        </div>
-                    <?php endif ?>
                 </div>
                 <div class="col col-4">
                     <p class="fw-bolder text-uppercase text-muted">Ingredientes:</p>
